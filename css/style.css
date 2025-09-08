@@ -1,0 +1,49 @@
+/* common css start */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+}
+body{
+    font-family: "Roboto Mono", monospace;
+    overflow:hidden;
+    box-sizing:border-box;
+    text-align:center
+
+}
+
+ul,li{
+    list-style :none;
+}
+
+a{
+    text-decoartion : none;
+}
+
+img{
+    width:100%;
+    vertical-align:middle;
+}
+
+h1{
+    text-align :center;
+}
+/* common css end */
+/* error  css start */
+p{
+    text-align: center;
+    color:red;
+    font-size:20px;
+}
+/* error  css end */
+/* common css start */
+/* common css end */
+/* common css start */
+/* common css end */
+/* common css start */
+/* common css end */
+/* common css start */
+/* common css end */
+/* common css start */
+/* common css end */
