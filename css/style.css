@@ -9,7 +9,7 @@ body{
     font-family: "Roboto Mono", monospace;
     overflow:hidden;
     box-sizing:border-box;
-    text-align:center
+    text-align:center;
 
 }
 
@@ -18,7 +18,7 @@ ul,li{
 }
 
 a{
-    text-decoartion : none;
+    text-decoration : none;
 }
 
 img{
@@ -28,17 +28,31 @@ img{
 
 h1{
     text-align :center;
+    margin-bottom :1rem
 }
 /* common css end */
-/* error  css start */
+/* score  css start */
 p{
-    text-align: center;
-    color:red;
-    font-size:20px;
+    color:blue;
+    position:absolute;
+    left:10vw;
+    top:4vh;
+    font-size:25px;
 }
-/* error  css end */
-/* common css start */
-/* common css end */
+
+/* score  css end */
+/* button css start */
+.rest{
+    background-color: black;
+    padding: 14px;
+    border-radius: 12px;
+    color: white;
+    position: absolute;
+    right: 10vw;
+    top:1vh;
+    visibility: hidden;
+}
+/* button css end */
 /* common css start */
 /* common css end */
 /* common css start */

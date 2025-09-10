@@ -1,145 +1,190 @@
-// all elemenst in js
-
-
-let blocksize = 25;
-
-let total_row = 17; // total row number
-let total_col = 17; // total col number
-let board= document.querySelector('#board');;
+// elements 
+//board
+let blocksize ;
+let total_row =20 ;
+let total_col =20;
+let board;
 let context;
-
-
-let snakeX = blocksize * 5;
-let snakeY = blocksize * 5;
-
-let speedX = 0; // speed of snake in x coordinate
-let speedY = 0; // speed of snake in y coordinate
-
-let snakeBody = [];
-
-let foodX;
-let foodY;
-
 let gameOver = false;
 
-function resizeCanvas() {
-    // make canvas fill most of the window
-    board.width = window.innerWidth * 0.8;
-    board.height = window.innerHeight * 0.8;
+//snake coordinates
+let snakeX ;
+let snakeY ;
+let snakeBody = [];
+// speed for snake
+let speedX = 0;
+let speedY = 0;
 
-    // calculate block size so rows/cols always fit
-    blocksize = Math.floor(Math.min(board.width / total_col, board.height / total_row));
-}
 
-window.
+//food coordinates
+let foodX, foodY
+// scorcount;
+let score =document.querySelector("")
+let myInterval;
+
 window.onload = function () {
-    // set board height and width
-    resizeCanvas();
-    
+
+    board = document.querySelector("#board");
+
+    board.width = (window.innerWidth * 0.8);
+    board.height = (window.innerHeight * 0.8);
+
+    blocksize = Math.floor(Math.min(board.width / total_col, board.height / total_row));
+
+    total_col = Math.floor(board.width / blocksize);
+    total_row = Math.floor(board.height / blocksize);
+
+    snakeX = blocksize * 5;
+    snakeY = blocksize * 5;
+
+
     context = board.getContext("2d");
-
-
-    // place food randomly
+  
+    document.addEventListener('keydown', changeDirection);
+    // place the food
     placeFood();
-    document.addEventListener('keyup', changeDirection);
-
-    // set snake speed
-    setInterval(update ,1000 /10)
-
+  
+   myInterval = setInterval(update, 1000/5);
+    
 }
 
+// update the function
 function update() {
+ 
     if (gameOver) {
+        clearInterval(myInterval);
         return;
     }
     
-    // background of a game
-    context.fillStyle = "green";
+ 
+
+    //make board
+    context.fillStyle = "black";
     context.fillRect(0, 0, board.width, board.height);
 
-    //Set food color and position
-    context.fillStyle = "Yellow";
-    context.fillRect(foodX, foodY, blocksize, blocksize)
-    
-    // when snake eat the food
-    if (snakeX == foodX && snakeY == foodY) {
-        snakeBody.push([foodX, foodY]);
+    //make food
+    context.fillStyle = "red";
+    context.fillRect(foodX, foodY, blocksize, blocksize);
+
+
+    if (snakeX === foodX && snakeY === foodY) {
+        snakeBody.push([foodX ,foodY])
         placeFood();
     }
 
-    // body of snake will grow
     for (let i = snakeBody.length - 1; i > 0; i--){
-
-        // it will store previous part of the sanke to the current part
-        snakeBody[i] = snakeBody[i - 1];
+        snakeBody[i] = [...snakeBody[i - 1]];
     }
 
     if (snakeBody.length) {
         snakeBody[0] = [snakeX, snakeY];
     }
-
-    context.fillStyle = "white";
+    //make sanke
+    context.fillStyle = "lime";
     snakeX += speedX * blocksize;
     snakeY += speedY * blocksize;
+    // Snap head to grid (avoid floating point errors)
+    snakeX = Math.round(snakeX / blocksize) * blocksize;
+    snakeY = Math.round(snakeY / blocksize) * blocksize;
+
     context.fillRect(snakeX, snakeY, blocksize, blocksize);
+
+    context.beginPath();
+    context.moveTo(snakeX, snakeY ); // TOP-left
+    context.lineTo(snakeX , snakeY + blocksize -1); // bottom-left
+    context.strokeStyle = "black"; // border color
+    context.lineWidth = 2;
+    context.stroke();
+
+
+    // Draw bottom border for head
+    context.beginPath();
+    context.moveTo(snakeX, snakeY + blocksize - 1); // bottom-left
+    context.lineTo(snakeX + blocksize, snakeY + blocksize - 1); // bottom-right
+    context.strokeStyle = "black";
+    context.lineWidth = 2;
+    context.stroke();
+
     for (let i = 0; i < snakeBody.length; i++){
-        context.fillRect(snakeBody[i][0], snakeBody[i][1], blocksize, blocksize);
-    }
+       context.fillStyle = "lime";
+       context.fillRect(snakeBody[i][0], snakeBody[i][1], blocksize, blocksize);
 
-
-    // out of boundary condition
-    if (snakeX < 0 || snakeX >= total_col * blocksize || snakeY < 0 || snakeY >= total_row * blocksize) {
-       
-        context.font = "50px Arial"
-        context.fillStyle = "red";
-        context.fillText ("Game Over",110,212);
+     // Left vertical line for each segment
+        context.beginPath();
+        context.moveTo(snakeBody[i][0], snakeBody[i][1]); // top-left
+        context.lineTo(snakeBody[i][0], snakeBody[i][1] + blocksize); // bottom-left
+        context.strokeStyle = "black";
+        context.lineWidth = 2;
+        context.stroke();
         
-        gameOver = true;
 
+         context.beginPath();
+         context.moveTo(snakeBody[i][0], snakeBody[i][1] + blocksize - 1); // bottom-left
+         context.lineTo(snakeBody[i][0] + blocksize, snakeBody[i][1] + blocksize - 1); // bottom-right
+         context.strokeStyle = "black";
+         context.lineWidth = 2;
+         context.stroke();
+    }
+ 
+
+    // check boundary
+    if (snakeX <0 || snakeX >board.width || snakeY < 0 || snakeY > board.height ) {
+      
+        gameOver = true;
+        let fontsize = Math.floor(board.width / 15);
+        context.font = fontsize+"px Arial";
+        context.fillStyle = "red";
+        context.fillText("Game Over" , board.width /3 ,board.height /3);
+    
     }
 
-    // snake eats his own body
+    // self collision
     for (let i = 0; i < snakeBody.length; i++){
-        if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
+        if (snakeX === snakeBody[i][0] && snakeY === snakeBody[i][1]) {
             gameOver = true;
-
+            let fontsize = Math.floor(board.width / 15);
+            context.font = fontsize + "px Arial";
+            context.fillStyle = "red";
+            context.fillText("Game Over", board.width / 3, board.height / 3);
         }
     }
 
 
+
 }
 
-
-// movement of the snake - we are using addevenetlistener
+// changing direction of sanke in x and  y
 function changeDirection(e) {
-    if (e.code == "ArrowUp" && speedY != 1) {
+   
+    if (e.code == "ArrowUp") {
         speedX = 0;
         speedY = -1;
-    }
-    else if (e.code == "ArrowDown"  && speedY != -1) {
-        speedX = 0;
-        speedY = 1;
+        
     }
 
-     else if (e.code == "ArrowLeft" && speedX != 1) {
-         speedX = -1;
-         speedY = 0;
+     else if (e.code == "ArrowDown") {
+        speedX = 0;
+        speedY = 1;
+        
     }
-    else if ( e.code == "ArrowRight"  && speedX != -1) {
+    
+      else if (e.code == "ArrowLeft") {
+        speedX = -1;
+        speedY = 0;
+        
+
+    }
+    
+    else if (e.code == "ArrowRight") {
         speedX = 1;
         speedY = 0;
+       
+
     }
 }
 
-
-// Randomly place food
-
+//randomly place the food
 function placeFood() {
-    
-    // in x coordinates
     foodX = Math.floor(Math.random() * total_col) * blocksize;
-
-    // in y coordinates
-
     foodY = Math.floor(Math.random() * total_row) * blocksize;
 }
