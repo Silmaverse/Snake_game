@@ -1,0 +1,22 @@
+@media (min-width: 0px) and (max-width: 575.98px) { 
+   p {
+
+	top: 5vh;
+	
+  }
+
+  .gamelevel {
+	
+	top: 6vh;
+	right: 0vw;
+	padding: 1px 4px 2px 8px;
+
+    }
+
+    .reset {
+        padding: 7px;
+        right: 2vw;
+        top: 5vh;
+       
+    }
+ }

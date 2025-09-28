@@ -36,13 +36,13 @@ p{
     color:blue;
     position:absolute;
     left:10vw;
-    top:4vh;
+    top:3vh;
     font-size:25px;
 }
 
 /* score  css end */
 /* button css start */
-.rest{
+.reset{
     background-color: black;
     padding: 14px;
     border-radius: 12px;
@@ -53,8 +53,47 @@ p{
     visibility: hidden;
 }
 /* button css end */
-/* common css start */
-/* common css end */
+/* level css start */
+.gamelevel {
+  appearance: none;   /* Removes default arrow (for most browsers) */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: absolute;
+  top:2vh;
+  right: 10vw;
+  background: #fff url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 0.75rem center;
+  background-size: 16px;
+
+  padding: 10px 40px 10px 15px;
+  background-color: dodgerblue;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+ 
+.gamelevel:hover {
+  border-color: #2196F3;
+}
+
+.gamelevel:focus {
+  outline: none;
+  border-color: limegreen;
+  box-shadow: 0 0 5px rgba(203, 198, 210, 0.5);
+}
+
+#level option {
+  padding: 10px;        /* spacing */
+  font-size: 16px;      /* font style */
+  font-weight: 500;
+}
+#level option:hover {
+  background: #4CAF50;  /* hover color */
+  color: white;
+}
+
+
+/* level css end */
 /* common css start */
 /* common css end */
 /* common css start */
